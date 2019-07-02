@@ -129,8 +129,7 @@ export class AppComponent {
   }
 
   parseLog(result){
-    // const regex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
-    // const found = 
+    // const regex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/; 
 
     const resultChanged = result.replace(/2019/g, "<br /> 2019"); 
     console.log(resultChanged);
