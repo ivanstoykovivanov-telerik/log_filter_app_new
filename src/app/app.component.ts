@@ -1,4 +1,4 @@
-import { Component, PipeTransform } from '@angular/core';
+import { Component, PipeTransform, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
@@ -10,7 +10,8 @@ import { LogService } from './log.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
   events : []; 
@@ -129,10 +130,13 @@ export class AppComponent {
   }
 
   parseLog(result){
-    // const regex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/; 
 
-    const resultChanged = result.replace(/2019/g, "<br /> 2019"); 
+    //Date: 
+    const resultChanged = result.replace(/2019/g, "<br /><br /><span class='bg-primary text-white'>2019</span>"); 
     console.log(resultChanged);
+
+    
+    
     return resultChanged; 
   }
 
