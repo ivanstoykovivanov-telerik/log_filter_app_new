@@ -34,12 +34,18 @@
 </section>
 
 <div class="my-5">
-  <h2>Logs: </h2>
-</div>
-<div class="my-5">
-  <p>
-    {{allLogs}}
+  <h2 class="text-center">Logs</h2>
+  <p 
+    *ngIf="!allLogs"
+    class="text-center"> 
+    <span class="badge badge-light noLogs">No logs to show at the moment</span>
   </p>
 </div>
-
+<div 
+  class="my-5"
+  [innerHTML]="allLogs">
+</div>
+<div [innerHTML]="allLogs">
+  {{test}}
+</div>
 

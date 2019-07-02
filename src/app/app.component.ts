@@ -16,6 +16,8 @@ export class AppComponent {
   events : []; 
   allLogs; 
   filter = new FormControl('');
+  private test = "<br>Test1<br>Test2"; 
+  
   private startTime; 
   private endTime; 
   private startDate; 
@@ -31,7 +33,9 @@ export class AppComponent {
       this.createForm(); 
   }
 
-  ngOnInit(){}
+  ngOnInit(){
+    console.log(this.allLogs);
+  }
 
   createForm(){
     this.angForm = this.fb.group({
