@@ -1,8 +1,5 @@
-import { Component, PipeTransform, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
-import { DecimalPipe } from '@angular/common';
-import { map, startWith } from 'rxjs/operators';
 import { LogService } from './log.service';
 
 
@@ -17,19 +14,11 @@ export class AppComponent {
   events : []; 
   allLogs; 
   filter = new FormControl('');
-  private test = "<br>Test1<br>Test2"; 
-  
-  private startTime; 
-  private endTime; 
-  private startDate; 
-  private endDate; 
   angForm: FormGroup;
-  private logs; 
 
   constructor(
     private logService : LogService, 
     private fb: FormBuilder,
-    pipe: DecimalPipe, 
     ){
       this.createForm(); 
   }

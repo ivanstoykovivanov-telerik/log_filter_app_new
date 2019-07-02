@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import  * as credentials from  './credentials';
 
-
+//Credentials for Login: 
 const username = credentials.username ; 
 const password = credentials.password ; 
 
@@ -48,9 +48,6 @@ export class LogService {
 
   getLogsFinal(dateTo, dateFrom){
     let secondRequestN = `https://adamosoeedev.adamos-dev.com/event/events?fragmentValue=${this.fragmentValue}&dateTo=${dateTo}&fragmentType=c8y_Instance&source=3637&dateFrom=${dateFrom}&type=c8y_LogfileRequest&pageSize=100&currentPage=1`;   
- //                       https://adamosoeedev.adamos-dev.com/event/events?dateFrom=2019-07-01T15:33:18%2B03:00&dateTo=2019-07-01T15:43:18%2B03:00&fragmentType=c8y_Instance&fragmentValue=apama-oeeapp-scope-t44680917-deployment-5cc65d4f5f-ntdb9&pageSize=100&source=3637&type=c8y_LogfileRequest
- //                       https://adamosoeedev.adamos-dev.com/event/events?dateFrom=2019-07-01T15:20:18%2B03:00&dateTo=2019-07-01T15:33:18%2B03:00&fragmentType=c8y_Instance&fragmentValue=apama-oeeapp-scope-t44680917-deployment-5cc65d4f5f-ntdb9&pageSize=100&source=3637&type=c8y_LogfileRequest
-    
     //First reuqest
      console.log(secondRequestN);
      return this.httpClient.get(secondRequestN, httpOptions); 
@@ -60,7 +57,6 @@ export class LogService {
   getBinaryFile(binaryID){
     let requestN =  `https://adamosoeedev.adamos-dev.com/event/events/${binaryID}/binaries`; 
     return this.httpClient.get(requestN, httpOptionsBinary ); 
-
   }
 
 }
