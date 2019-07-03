@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { LogService } from './log.service';
-
+import { LogObj } from './LogObj';
 
 
 @Component({
@@ -15,6 +15,8 @@ export class AppComponent {
   allLogs; 
   filter = new FormControl('');
   angForm: FormGroup;
+  private startDate: string; 
+  private endDate: string; 
 
   constructor(
     private logService : LogService, 
@@ -54,6 +56,9 @@ export class AppComponent {
     console.log("Date :");
     console.log(startDate._inputValue);
     console.log(endDate._inputValue);
+    
+    this.startDate = startDate._inputValue; 
+    this.endDate = endDate._inputValue; 
 
     startTime = this.fixTime(startTime) ; 
     endTime = this.fixTime(endTime) ;
@@ -72,6 +77,11 @@ export class AppComponent {
       dateFrom : dateFrom
     }; 
     
+    //For testing only :  TODO: remove after
+    timeObj.dateTo =  "2019-07-01T17:10:00%2B03:00" ; 
+    timeObj.dateFrom = "2019-07-01T17:00:00%2B03:00" ; 
+
+    console.log(timeObj);
     this.getBinaryFinal(timeObj); 
   }
 
@@ -120,12 +130,45 @@ export class AppComponent {
 
   parseLog(result){
 
-    //Date: 
+    // Date: 
     const resultChanged = result.replace(/2019/g, "<br /><br /><span class='bg-primary text-white'>2019</span>"); 
+    //const resultChanged = result.replace(`/${this.startDate}/g`, `<br /><br /><span class='bg-primary text-white'>${this.startDate}</span>`); 
     console.log(resultChanged);
 
-    
-    
+   
+
+    //Search Date : 
+    const regex = /\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*/g;
+    let indicesDate = []; 
+    let m; 
+    let arrIndices = []; 
+
+    while ((m = regex.exec(result)) !== null) {
+      // This is necessary to avoid infinite loops with zero-width matches
+      arrIndices.push(m);
+      console.log(m);
+      let date = m[0]; 
+      let timeIndex = m.index + 11;
+      let timeValue = m.input.slice(m.index + 11, m.index + 23); 
+      console.log(timeValue); 
+      let typeIndex = m.index + 25;
+      let typeValue = m.input.slice(m.index + 25, m.index + 27 )
+      let newLogObj: LogObj = new LogObj(m[0], timeValue, typeValue);
+      // let dateWithColor = `<br 0/><br /><span class='bg-primary text-white'>${m[0]}</span>`
+      console.log(m[0]);
+      if (m.index === regex.lastIndex) {
+          regex.lastIndex++;
+      }
+      
+      // The result can be accessed through the `m`-variable.
+      // m.forEach((match, groupIndex) => {
+      //     console.log(`Found match, group ${groupIndex}: ${match}`);
+      // });
+     
+  }
+    console.log(arrIndices);
+        
+
     return resultChanged; 
   }
 
