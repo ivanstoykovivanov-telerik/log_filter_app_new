@@ -27,18 +27,18 @@ const httpOptionsBinary = {
   providedIn: 'root'
 })
 export class LogService { 
-
-  private firstRequest : string = "https://adamosoeedev.adamos-dev.com/inventory/managedObjects?pageSize=100&type=c8y_Application_6447&withTotalPages=true"; 
-  private secondRequest: string = "https://adamosoeedev.adamos-dev.com/event/events"; 
-  private dateFrom = "2019-07-01T11:02:37%2B03:00"; 
-  private dateTo = "2019-07-01T11:12:37%2B03:00" ; 
-  private fragmentType: string = "c8y_Instance";
- 
+  
   private fragmentValue :string = "apama-oeeapp-scope-t44680917-deployment-5cc65d4f5f-ntdb9";  
+
+  // private firstRequest : string = "https://adamosoeedev.adamos-dev.com/inventory/managedObjects?pageSize=100&type=c8y_Application_6447&withTotalPages=true"; 
+  // private secondRequest: string = "https://adamosoeedev.adamos-dev.com/event/events"; 
+  // private dateFrom = "2019-07-01T11:02:37%2B03:00"; 
+  // private dateTo = "2019-07-01T11:12:37%2B03:00" ; 
+  // private fragmentType: string = "c8y_Instance";
  
-  private type: string = "c8y_LogfileRequest" ; 
-  private pageSize: number = 100; 
-  private source: number = 3637;
+  // private type: string = "c8y_LogfileRequest" ; 
+  // private pageSize: number = 100; 
+  // private source: number = 3637;
  
 
   constructor(

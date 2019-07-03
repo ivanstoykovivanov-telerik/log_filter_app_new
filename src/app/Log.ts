@@ -1,5 +1,8 @@
-export interface Log{
-    date: string, 
-    time: string, 
-    type: string
+export class Log{
+    constructor(
+        private date: string, 
+        private time: string, 
+        private type: string,
+        private contents: string[]
+    ){}
 }

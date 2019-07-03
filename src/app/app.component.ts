@@ -1,7 +1,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { LogService } from './log.service';
-import { LogObj } from './LogObj';
+import { Log } from './Log';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { LogObj } from './LogObj';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
-  events : []; 
+  
+  logs : Log[] = [];
   allLogs; 
   filter = new FormControl('');
   angForm: FormGroup;
@@ -49,22 +51,11 @@ export class AppComponent {
   }
 
   onClickFind(startTime, endTime, startDate, endDate){
-    console.log("Time: ");
-    console.log(startTime);
-    console.log(endTime);
-    
-    console.log("Date :");
-    console.log(startDate._inputValue);
-    console.log(endDate._inputValue);
-    
     this.startDate = startDate._inputValue; 
     this.endDate = endDate._inputValue; 
 
     startTime = this.fixTime(startTime) ; 
     endTime = this.fixTime(endTime) ;
-
-    console.log(startTime);
-    console.log(endTime);
 
     let dateFrom : string =  `${startDate._inputValue}T${startTime.hour}:${startTime.minute}:${startTime.second}%2B03:00` ; 
     let dateTo : string =  `${endDate._inputValue}T${endTime.hour}:${endTime.minute}:${endTime.second}%2B03:00` ; 
@@ -76,12 +67,8 @@ export class AppComponent {
       dateTo : dateTo,
       dateFrom : dateFrom
     }; 
-    
-    //For testing only :  TODO: remove after
-    timeObj.dateTo =  "2019-07-01T17:10:00%2B03:00" ; 
-    timeObj.dateFrom = "2019-07-01T17:00:00%2B03:00" ; 
-
     console.log(timeObj);
+    
     this.getBinaryFinal(timeObj); 
   }
 
@@ -109,7 +96,6 @@ export class AppComponent {
   }
 
   fixTime(time){
-    
     if(Number(time.hour < 10)){
       this.removeFirstZero(time.hour); 
       time.hour = `0${time.hour}`; 
@@ -129,22 +115,16 @@ export class AppComponent {
   }
 
   parseLog(result){
-
-    // Date: 
+    // Logs displayed in "Unordered logs" section of the html
     const resultChanged = result.replace(/2019/g, "<br /><br /><span class='bg-primary text-white'>2019</span>"); 
-    //const resultChanged = result.replace(`/${this.startDate}/g`, `<br /><br /><span class='bg-primary text-white'>${this.startDate}</span>`); 
-    console.log(resultChanged);
-
-   
 
     //Search Date : 
     const regex = /\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*/g;
-    let indicesDate = []; 
-    let m; 
+    let m;                //  every date found in the string of all logs
     let arrIndices = []; 
     let currentIndex = 0; 
     let lastIndex = 0; 
-
+    let logs : Log[] = [];
 
     while ((m = regex.exec(result)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
@@ -152,38 +132,35 @@ export class AppComponent {
       console.log(m);
       
       if(m.index !== 0 ){
-        //244
         lastIndex = currentIndex;
         currentIndex = m.index; 
-        console.log(lastIndex,currentIndex);
-        let currentWord = result.slice(lastIndex,currentIndex); 
-        console.log(currentWord);
+        
+        //LOG: 
+        let currentLog = result.slice(lastIndex,currentIndex); 
+        console.log(currentLog);
+
+        let logElements = currentLog.split(" ");
+        console.log(logElements);
+
+        const contents : string[] = logElements.slice(4, logElements[length-1]);
+        
+        //a single log : 
+        const logAsObj = new Log(logElements[0], logElements[1], logElements[2], contents ); 
+        logs.push(logAsObj); 
       }
+
       currentIndex = m.index;
-
-      let date = m[0]; 
-      let timeIndex = m.index + 11;
-      let timeValue = m.input.slice(m.index + 11, m.index + 23); 
-      console.log(timeValue); 
-      let typeIndex = m.index + 25;
-      let typeValue = m.input.slice(m.index + 24, m.index + 28 )
-      let newLogObj: LogObj = new LogObj(m[0], timeValue, typeValue);
-      console.log(newLogObj);
-
-
-      //TODO: use split to get the first elements of the log 
-
+      
       console.log(m[0]);
       if (m.index === regex.lastIndex) {
           regex.lastIndex++;
       }
-      
-     
   }
-    console.log(arrIndices);
-        
-
+    console.log(logs);
+    this.logs = logs; 
     return resultChanged; 
   }
+
+
 
 }

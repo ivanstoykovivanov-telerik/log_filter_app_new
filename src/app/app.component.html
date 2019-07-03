@@ -5,7 +5,10 @@
         <div class="col-4">
           <span class="labelTime">From</span>
           <span>
-            <ngb-timepicker [(ngModel)]="startTime" [seconds]="true"></ngb-timepicker>
+            <ngb-timepicker 
+              [(ngModel)]="startTime" 
+              [seconds]="true">
+            </ngb-timepicker>
           </span>
           <span>
             <button class="btn btn-primary my-5" (click)="startDate.toggle()">Start Date</button>  
@@ -42,12 +45,30 @@
   </p>
 </div>
 
-<div class="container">
+<!-- Unordered logs  -->
+<!-- <div class="container">
   <div 
     class="my-5"
     [innerHTML]="allLogs">
   </div>
-</div>
+</div> -->
 
+<!-- Ordered logs  -->
+<div class="container">
+    <div *ngFor="let log of logs" class="my-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-2">{{log.date}}</div>
+          <div class="col-2">{{log.time}}</div>
+          <div class="col-2">{{log.type}}</div>
+          <div class="col-2">
+            <span *ngFor= "let el of log.contents">
+              <span>{{el}}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 
 
