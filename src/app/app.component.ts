@@ -142,28 +142,42 @@ export class AppComponent {
     let indicesDate = []; 
     let m; 
     let arrIndices = []; 
+    let currentIndex = 0; 
+    let lastIndex = 0; 
+
 
     while ((m = regex.exec(result)) !== null) {
       // This is necessary to avoid infinite loops with zero-width matches
       arrIndices.push(m);
       console.log(m);
+      
+      if(m.index !== 0 ){
+        //244
+        lastIndex = currentIndex;
+        currentIndex = m.index; 
+        console.log(lastIndex,currentIndex);
+        let currentWord = result.slice(lastIndex,currentIndex); 
+        console.log(currentWord);
+      }
+      currentIndex = m.index;
+
       let date = m[0]; 
       let timeIndex = m.index + 11;
       let timeValue = m.input.slice(m.index + 11, m.index + 23); 
       console.log(timeValue); 
       let typeIndex = m.index + 25;
-      let typeValue = m.input.slice(m.index + 25, m.index + 27 )
+      let typeValue = m.input.slice(m.index + 24, m.index + 28 )
       let newLogObj: LogObj = new LogObj(m[0], timeValue, typeValue);
-      // let dateWithColor = `<br 0/><br /><span class='bg-primary text-white'>${m[0]}</span>`
+      console.log(newLogObj);
+
+
+      //TODO: use split to get the first elements of the log 
+
       console.log(m[0]);
       if (m.index === regex.lastIndex) {
           regex.lastIndex++;
       }
       
-      // The result can be accessed through the `m`-variable.
-      // m.forEach((match, groupIndex) => {
-      //     console.log(`Found match, group ${groupIndex}: ${match}`);
-      // });
      
   }
     console.log(arrIndices);
