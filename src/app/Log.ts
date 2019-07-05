@@ -1,8 +1,8 @@
 export class Log{
     constructor(
-        private date: string, 
-        private time: string, 
-        private type: string,
-        private contents: string[]
+         public date: string, 
+         public time: string, 
+         public type: string,
+         public contents: string[]
     ){}
 }

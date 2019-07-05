@@ -1,8 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, PipeTransform } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { LogService } from './log.service';
 import { Log } from './Log';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { stringify } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -14,7 +16,6 @@ import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent {
   
   logs : Log[] = [];
-  allLogs; 
   filter = new FormControl('');
   angForm: FormGroup;
   private startDate: string; 
@@ -27,27 +28,20 @@ export class AppComponent {
       this.createForm(); 
   }
 
-  ngOnInit(){
-    console.log(this.allLogs);
-  }
+  ngOnInit(){ }
 
   createForm(){
     this.angForm = this.fb.group({
     })
   }
- 
 
   displayBinary(binary : Blob){
     let fileReader = new FileReader();
     fileReader.onload = (event: any) => {
       var contents = event.target.result;
-      console.log(contents);
-      let brContents = this.parseLog(contents); 
-      this.allLogs = brContents; 
-     
+      this.parseLog(contents); 
     }
     fileReader.readAsText(binary);
-    
   }
 
   onClickFind(startTime, endTime, startDate, endDate){
@@ -56,7 +50,7 @@ export class AppComponent {
 
     startTime = this.fixTime(startTime) ; 
     endTime = this.fixTime(endTime) ;
-
+     
     let dateFrom : string =  `${startDate._inputValue}T${startTime.hour}:${startTime.minute}:${startTime.second}%2B03:00` ; 
     let dateTo : string =  `${endDate._inputValue}T${endTime.hour}:${endTime.minute}:${endTime.second}%2B03:00` ; 
     
@@ -95,22 +89,29 @@ export class AppComponent {
     }
   }
 
-  fixTime(time){
+  fixTime(time): {hour: string, minute: string, second: string} {
+    //  time = this.removeFirstZero(time); 
+    
     if(Number(time.hour < 10)){
       this.removeFirstZero(time.hour); 
       time.hour = `0${time.hour}`; 
+    }else {
+      time.hour = time.hour.toString(); 
     }
     
     if(Number(time.minute < 10)){
       this.removeFirstZero(time.minute); 
       time.minute = `0${time.minute}`; 
+    }else{
+      time.minute = time.minute.toString(); 
     }
 
     if(Number(time.second < 10)){
       this.removeFirstZero(time.second); 
       time.second = `0${time.second}`; 
+    }else{
+      time.second = time.second.toString(); 
     }
-
     return time; 
   }
 
@@ -156,11 +157,19 @@ export class AppComponent {
           regex.lastIndex++;
       }
   }
+   
     console.log(logs);
     this.logs = logs; 
     return resultChanged; 
   }
 
-
-
+  // search(text: string, pipe: PipeTransform): Log[]{
+  //   return this.logs.filter(log => {
+  //   //   const term = text.toLowerCase(); 
+  //   //   return log.date.toLowerCase().includes(term)
+  //   //   || pipe.transform(country.area).includes(term)
+  //   //   || pipe.transform(country.population).includes(term);
+  //   // })
+  // })
+  
 }
