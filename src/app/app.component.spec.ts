@@ -38,4 +38,42 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('.labelTime').textContent).toContain('From');
   });
+
+  describe('removeFirstZero', () => {
+    it('should be defined', () => {
+      expect(component.removeFirstZero).toBeDefined();
+    });
+
+    it('should return 5 when 05', () => {
+      expect(component.removeFirstZero('05')).toEqual('5');
+    });
+
+    it('should return 5 when number 5', () => {
+      expect(component.removeFirstZero(5)).toEqual('5');
+    });
+
+    it('should return 05 when 005', () => {
+      expect(component.removeFirstZero('005')).toEqual('05');
+    });
+  });
+
+  describe('fixTime', () => {
+    it('should be defined', () => {
+      expect(component.fixTime).toBeDefined();
+    });
+
+    it('should empty object when empty object comes', () => {
+      expect(JSON.stringify(component.fixTime({}))).toEqual('{}');
+    });
+
+    it('{hour: 1, minute: 1, second: 1} should be equal to {"hour":"01","minute":"01","second":"01"}', () => {
+      const param = {hour: 1, minute: 1, second: 1};
+      expect(JSON.stringify(component.fixTime(param))).toEqual('{"hour":"01","minute":"01","second":"01"}');
+    });
+
+    it('{hour: 17, minute: 11, second: 10} should be equal to {"hour":17,"minute":11,"second":10}', () => {
+      const param = {hour: 17, minute: 11, second: 10};
+      expect(JSON.stringify(component.fixTime(param))).toEqual('{"hour":17,"minute":11,"second":10}');
+    });
+  });
 });

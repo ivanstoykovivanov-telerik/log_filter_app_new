@@ -107,21 +107,25 @@ export class AppComponent {
     if(number.charAt(0) === '0' ){
       return number.substr(1); 
     }
+    return number; //if not string || chartAt(0)!= 0
   }
 
   fixTime(time){
     
     if(Number(time.hour < 10)){
+      console.log(1)
       this.removeFirstZero(time.hour); 
       time.hour = `0${time.hour}`; 
     }
     
     if(Number(time.minute < 10)){
+      console.log(2)
       this.removeFirstZero(time.minute); 
       time.minute = `0${time.minute}`; 
     }
 
     if(Number(time.second < 10)){
+      console.log(3)
       this.removeFirstZero(time.second); 
       time.second = `0${time.second}`; 
     }
