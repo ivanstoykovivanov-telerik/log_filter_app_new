@@ -15,7 +15,7 @@ import { stringify } from '@angular/compiler/src/util';
 })
 export class AppComponent {
   
-  logs : Log[] = [];
+  logs : Log[];
   filter = new FormControl('');
   angForm: FormGroup;
   private startDate: string; 
@@ -45,12 +45,13 @@ export class AppComponent {
   }
 
   onClickFind(startTime, endTime, startDate, endDate){
-    this.startDate = startDate._inputValue; 
-    this.endDate = endDate._inputValue; 
-
+    // this.startDate = startDate._inputValue; 
+    // this.endDate = endDate._inputValue; 
+    console.log("In");
     startTime = this.fixTime(startTime) ; 
     endTime = this.fixTime(endTime) ;
-     
+    console.log("In");
+    
     let dateFrom : string =  `${startDate._inputValue}T${startTime.hour}:${startTime.minute}:${startTime.second}%2B03:00` ; 
     let dateTo : string =  `${endDate._inputValue}T${endTime.hour}:${endTime.minute}:${endTime.second}%2B03:00` ; 
     
@@ -82,33 +83,35 @@ export class AppComponent {
     ) 
   }
 
-  removeFirstZero(num){
+  removeFirstZero(num : number){
    let number : string = num.toString(); 
-    if(number.charAt(0) === '0' ){
+   if(number.length == 2 &&  number.charAt(0) === '0' ){
       return number.substr(1); 
     }
+    return number; 
   }
 
   fixTime(time): {hour: string, minute: string, second: string} {
-    //  time = this.removeFirstZero(time); 
     
-    if(Number(time.hour < 10)){
+    if(Number(time.hour < 10) && time.hour.length > 2){
       this.removeFirstZero(time.hour); 
-      time.hour = `0${time.hour}`; 
+      time.hour = `${time.hour}`; 
     }else {
       time.hour = time.hour.toString(); 
     }
     
     if(Number(time.minute < 10)){
       this.removeFirstZero(time.minute); 
-      time.minute = `0${time.minute}`; 
+      time.minute = `${time.minute}`; 
+      console.log(time.minute);
     }else{
       time.minute = time.minute.toString(); 
     }
 
     if(Number(time.second < 10)){
       this.removeFirstZero(time.second); 
-      time.second = `0${time.second}`; 
+      time.second = `${time.second}`; 
+      console.log(time.second);
     }else{
       time.second = time.second.toString(); 
     }
