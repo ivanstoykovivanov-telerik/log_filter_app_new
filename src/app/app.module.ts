@@ -6,10 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { CommonModule, DecimalPipe } from '@angular/common';
+import { SortableDirective } from './sortable.directive';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SortableDirective
   ],
   imports: [
     BrowserModule,

@@ -2,9 +2,10 @@ import { Component, ViewEncapsulation, PipeTransform } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { LogService } from './log.service';
 import { Log } from './Log';
-import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
-import { stringify } from '@angular/compiler/src/util';
+import { DecimalPipe } from '@angular/common';
+
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 
 @Component({
@@ -20,12 +21,16 @@ export class AppComponent {
   angForm: FormGroup;
   private startDate: string; 
   private endDate: string; 
+  logs$: Observable<Log[]>; 
+  pipe: DecimalPipe; 
 
   constructor(
+    pipe: DecimalPipe, 
     private logService : LogService, 
     private fb: FormBuilder,
     ){
       this.createForm(); 
+      //this.logs$ = this.filter.valueChanges.pipe(startWith(''), map(text => this.search(text, pipe)));
   }
 
   ngOnInit(){ }
@@ -45,12 +50,8 @@ export class AppComponent {
   }
 
   onClickFind(startTime, endTime, startDate, endDate){
-    // this.startDate = startDate._inputValue; 
-    // this.endDate = endDate._inputValue; 
-    console.log("In");
     startTime = this.fixTime(startTime) ; 
     endTime = this.fixTime(endTime) ;
-    console.log("In");
     
     let dateFrom : string =  `${startDate._inputValue}T${startTime.hour}:${startTime.minute}:${startTime.second}%2B03:00` ; 
     let dateTo : string =  `${endDate._inputValue}T${endTime.hour}:${endTime.minute}:${endTime.second}%2B03:00` ; 
@@ -64,10 +65,13 @@ export class AppComponent {
     }; 
     console.log(timeObj);
     
-    this.getBinaryFinal(timeObj); 
+    this.getBinary(timeObj); 
   }
 
-  getBinaryFinal(time: {dateTo, dateFrom}){
+  /*
+  * Get the logs from the binary file
+  */
+  getBinary(time: {dateTo, dateFrom}){
     this.logService.getLogsFinal(time.dateTo, time.dateFrom).subscribe(
       (res: any) => {
        console.log(res);
@@ -162,17 +166,32 @@ export class AppComponent {
   }
    
     console.log(logs);
-    this.logs = logs; 
+    this.logs = logs;
+    
+    this.logs$ = this.filter.valueChanges.pipe(
+      startWith(''),
+      map(text => this.search(text))
+    )
+    
+    
+    //TODO: finish it
+
     return resultChanged; 
   }
 
-  // search(text: string, pipe: PipeTransform): Log[]{
-  //   return this.logs.filter(log => {
-  //   //   const term = text.toLowerCase(); 
-  //   //   return log.date.toLowerCase().includes(term)
-  //   //   || pipe.transform(country.area).includes(term)
-  //   //   || pipe.transform(country.population).includes(term);
-  //   // })
-  // })
-  
+//TODO: Inspect search contents element functionality
+
+  search(text: string): Log[]{
+    return this.logs.filter(log => {
+      const term = text.toLowerCase();
+      // console.log(term);
+      // console.log(text);
+      // console.log(log.type.toLowerCase().includes("INFO"));
+      return log.date.includes(term) 
+        || log.time.includes(term) 
+        || log.type.toLowerCase().includes(term)
+        || log.contents.includes(term) ; 
+    })
+  }
+
 }

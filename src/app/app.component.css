@@ -25,3 +25,8 @@ section {
     background-color: #f6f3f3;  
 }
 
+/* Filtering table demo */
+span.ngb-highlight {
+    background-color: yellow;
+}
+

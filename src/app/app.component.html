@@ -38,7 +38,6 @@
     </div>
   </div>
 </section>
-
 <div class="my-5">
   <h2 class="text-center">Logs</h2>
   <p 
@@ -48,22 +47,50 @@
   </p>
 </div>
 
-<!-- Ordered logs  -->
+<!-- RESULTS:  -->
+<!-- LOGS IN A SEARCHABLE TABLE -->
 <div class="container">  
-  <div *ngFor="let log of logs" class="my-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-2">{{log.date}}</div>
-          <div class="col-2">{{log.time}}</div>
-          <div class="col-2">{{log.type}}</div>
-          <div class="col-2">
-            <span *ngFor= "let el of log.contents">
-              <span>{{el}}</span>
-            </span>
-          </div>
-        </div>
+  <div *ngIf="logs">
+  
+    <!-- Search form -->
+    <form>
+      <div class="form-group form-inline">
+          Search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
       </div>
-    </div>
-</div>
+    </form>  
+    
+    <!-- Table with logs    -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Type</th>
+          <th scope="col">Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs$ | async; index as i">
+          <td scope="row">{{ i + 1 }}</td>
+          <td>
+            <ngb-highlight [result]="log.date" [term]="filter.value"></ngb-highlight>
+          </td> 
+          <td>
+            <ngb-highlight [result]="log.time" [term]="filter.value"></ngb-highlight>
+          </td> 
+          <td>
+            <ngb-highlight [result]="log.type" [term]="filter.value"></ngb-highlight>
+          </td>  
+          <td> 
+            <span *ngFor= "let el of log.contents">
+                <ngb-highlight [result]="el" [term]="filter.value"></ngb-highlight>
+            </span>
+          </td>
+        </tr>
+      </tbody>  
+    </table>
 
+  </div>
+</div>
 
