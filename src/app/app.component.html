@@ -1,3 +1,4 @@
+
 <section>
   <div class="log-search-bar">
     <div class="container">
@@ -11,8 +12,17 @@
             </ngb-timepicker>
           </span>
           <span>
-            <button class="btn btn-primary my-5" (click)="startDate.toggle()">Start Date</button>  
-            <input type="text" ngbDatepicker #startDate="ngbDatepicker"/>
+            <button 
+              class="btn btn-primary my-5" 
+              (click)="startDate.toggle()">
+              <i class="fa fa-calendar" aria-hidden="true"></i> Start Date
+            </button>  
+            <input 
+              class="form-control"
+              type="text" 
+              ngbDatepicker 
+              #startDate="ngbDatepicker"
+              placeholder='&#xF133;'/>
           </span>
         </div>
         <div class="col-4">
@@ -24,15 +34,25 @@
             </ngb-timepicker>
           </span>
           <span>
-            <button class="btn btn-primary my-5" (click)="endDate.toggle()">End Date</button>  
-            <input type="text" ngbDatepicker #endDate="ngbDatepicker"/>
+            <button 
+              class="btn btn-primary my-5" 
+              (click)="endDate.toggle()">
+              <i class="fa fa-calendar" aria-hidden="true"></i> End Date
+            </button>  
+            <input 
+              class="form-control"
+              type="text" 
+              ngbDatepicker 
+              #endDate="ngbDatepicker"
+              placeholder='&#xF133;'/>
           </span>
         </div>
         <div class="col-2">
           <button 
-          class="btn btn-primary btn-lg findBtn" 
-          (click) = "onClickFind(startTime, endTime, startDate, endDate)"
-          >Find</button>
+            class="btn btn-primary btn-lg findBtn" 
+            (click) = "onClickFind(startTime, endTime, startDate, endDate)">
+            Find
+          </button>
         </div>
       </div>
     </div>
@@ -55,7 +75,12 @@
     <!-- Search form -->
     <form>
       <div class="form-group form-inline">
-          Search: <input class="form-control ml-2" type="text" [formControl]="filter"/>
+          <input 
+            class="form-control ml-2" 
+            placeholder='&#xF002; Search logs'
+            type="text" 
+            value='<i class="fa fa-search" aria-hidden="true"></i>'
+            [formControl]="filter"/>
       </div>
     </form>  
     

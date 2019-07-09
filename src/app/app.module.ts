@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { SortableDirective } from './sortable.directive';
 
+
 @NgModule({
   declarations: [
     AppComponent,

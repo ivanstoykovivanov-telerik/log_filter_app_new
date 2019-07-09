@@ -1,5 +1,10 @@
+.form-control {
+    font-family: "FontAwesome"
+  }
+
 section {
     background-color: #ededed; 
+    /* font-family: 'Times New Roman', Times, serif */
 }
 
 .log-search-bar{
